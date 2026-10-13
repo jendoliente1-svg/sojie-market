@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Seller Dashboard · Sojie Market</title>
+    <link rel="stylesheet" href="commerce.css">
+    <script src="commerce.js" defer></script>
+</head>
+<body data-page="seller">
+    <header class="commerce-nav">
+        <a class="brand" href="shop.html">Sojie Market</a>
+        <nav>
+            <a href="shop.html">Customer store</a>
+            <a href="#inventory">Products</a>
+            <a href="#sellerOrders">Orders</a>
+        </nav>
+        <span class="seller-tag">Seller dashboard</span>
+    </header>
+
+    <main class="store-shell seller-shell">
+        <section class="store-hero glass-panel seller-hero">
+            <div>
+                <p class="eyebrow">Store management</p>
+                <h1>Seller dashboard</h1>
+                <p>Add products, update inventory, manage orders, and check sales.</p>
+            </div>
+            <div class="hero-orb" aria-hidden="true">✦</div>
+        </section>
+
+        <section class="stat-grid" aria-label="Store statistics">
+            <article class="glass-panel stat-card"><span>Products listed</span><strong id="statProducts">0</strong></article>
+            <article class="glass-panel stat-card"><span>Orders to process</span><strong id="statPending">0</strong></article>
+            <article class="glass-panel stat-card"><span>Sales total</span><strong id="statSales">₱0.00</strong></article>
+        </section>
+
+        <section class="glass-panel content-panel">
+            <div class="section-heading compact-heading">
+                <div><p class="eyebrow">Inventory</p><h2 id="productFormHeading">Add a product</h2></div>
+            </div>
+            <form id="productForm" class="product-form">
+                <input id="productId" type="hidden">
+                <label for="productName">Product name</label>
+                <input id="productName" required maxlength="70" placeholder="e.g. Cloud Blue Tumbler">
+                <label for="productCategory">Category</label>
+                <input id="productCategory" required maxlength="40" placeholder="e.g. Home">
+                <label for="productPrice">Price (₱)</label>
+                <input id="productPrice" type="number" min="0.01" step="0.01" required placeholder="250">
+                <label for="productStock">Stock</label>
+                <input id="productStock" type="number" min="0" step="1" required placeholder="10">
+                <label for="productDescription">Description</label>
+                <textarea id="productDescription" rows="3" maxlength="240" placeholder="Short product description"></textarea>
+                <div class="form-actions">
+                    <button id="saveProductButton" class="primary-button" type="submit">Add product</button>
+                    <button id="cancelEditButton" class="secondary-button" type="button" hidden>Cancel edit</button>
+                </div>
+                <p id="sellerMessage" class="form-message" role="status"></p>
+            </form>
+        </section>
+
+        <section id="inventory" class="glass-panel content-panel">
+            <div class="section-heading compact-heading">
+                <div><p class="eyebrow">Manage products</p><h2>Product inventory</h2></div>
+            </div>
+            <div class="table-wrap">
+                <table>
+                    <thead><tr><th>Product</th><th>Category</th><th>Price</th><th>Stock</th><th>Actions</th></tr></thead>
+                    <tbody id="sellerProducts"></tbody>
+                </table>
+            </div>
+        </section>
+
+        <section class="glass-panel content-panel">
+            <div class="section-heading compact-heading">
+                <div><p class="eyebrow">Fulfillment</p><h2>Customer orders</h2></div>
+            </div>
+            <div class="table-wrap">
+                <table>
+                    <thead><tr><th>Order</th><th>Customer</th><th>Items</th><th>Total</th><th>Date</th><th>Status</th></tr></thead>
+                    <tbody id="sellerOrders"></tbody>
+                </table>
+            </div>
+            <p id="emptySellerOrders" class="empty-message" hidden>No customer orders yet.</p>
+        </section>
+        <footer class="store-footer"><a href="shop.html">Return to the customer store</a></footer>
+    </main>
+</body>
+</html>

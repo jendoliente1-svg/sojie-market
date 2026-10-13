@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Sojie Market</title>
+    <link rel="stylesheet" href="commerce.css">
+    <script src="commerce.js" defer></script>
+</head>
+<body data-page="shop">
+    <header class="commerce-nav">
+        <a class="brand" href="shop.html">Sojie Market</a>
+        <nav>
+            <a href="#products">Shop</a>
+            <a href="#orders">Track orders</a>
+            <a href="seller.html">Seller dashboard</a>
+        </nav>
+        <a class="cart-link" href="#cart">Cart <span id="cartCount">0</span></a>
+    </header>
+
+    <main class="store-shell">
+        <section class="store-hero glass-panel">
+            <div>
+                <p class="eyebrow">A little something for you</p>
+                <h1>Find your next favorite.</h1>
+                <p>Browse the products, add them to your cart, and follow your orders here.</p>
+            </div>
+            <div class="hero-orb" aria-hidden="true">✦</div>
+        </section>
+
+        <section id="products" class="store-section">
+            <div class="section-heading">
+                <div>
+                    <p class="eyebrow">Shop</p>
+                    <h2>Featured products</h2>
+                </div>
+                <div class="catalog-tools">
+                    <input id="productSearch" type="search" placeholder="Search products" aria-label="Search products">
+                    <select id="categoryFilter" aria-label="Filter by category">
+                        <option value="all">All categories</option>
+                    </select>
+                </div>
+            </div>
+            <div id="productGrid" class="product-grid"></div>
+            <p id="emptyProducts" class="empty-message" hidden>No products match your search.</p>
+        </section>
+
+        <div class="store-columns">
+            <section id="cart" class="glass-panel content-panel">
+                <div class="section-heading compact-heading">
+                    <div><p class="eyebrow">Your bag</p><h2>Shopping cart</h2></div>
+                </div>
+                <div id="cartItems"></div>
+                <p class="cart-total">Total <strong id="cartTotal">₱0.00</strong></p>
+                <form id="checkoutForm" class="checkout-form">
+                    <h3>Delivery details</h3>
+                    <label for="customerName">Full name</label>
+                    <input id="customerName" name="customerName" required placeholder="Your name">
+                    <label for="customerEmail">Email</label>
+                    <input id="customerEmail" name="customerEmail" type="email" required placeholder="you@example.com">
+                    <label for="customerAddress">Delivery address</label>
+                    <textarea id="customerAddress" name="customerAddress" rows="3" required placeholder="Street, city, and province"></textarea>
+                    <button class="primary-button" type="submit">Place order</button>
+                    <p id="checkoutMessage" class="form-message" role="status"></p>
+                </form>
+            </section>
+
+            <section id="orders" class="glass-panel content-panel">
+                <div class="section-heading compact-heading">
+                    <div><p class="eyebrow">Updates</p><h2>Track your orders</h2></div>
+                </div>
+                <div id="customerOrders"></div>
+            </section>
+        </div>
+        <footer class="store-footer">Sojie Market · Demo store for your project</footer>
+    </main>
+
+    <dialog id="productDialog" class="product-dialog">
+        <button id="closeDialog" class="dialog-close" type="button" aria-label="Close">×</button>
+        <div id="dialogContent"></div>
+    </dialog>
+</body>
+</html>

@@ -1,0 +1,197 @@
+* {
+    box-sizing: border-box;
+}
+
+body {
+    margin: 0;
+    min-height: 100vh;
+    background: radial-gradient(ellipse at 15% 25%, rgba(66, 133, 244, .30), transparent 34%), radial-gradient(ellipse at 88% 72%, rgba(138, 116, 220, .24), transparent 32%), radial-gradient(ellipse at 60% 0%, rgba(120, 170, 240, .14), transparent 38%), linear-gradient(135deg, #101625, #202124 52%, #111827);
+    background-attachment: fixed;
+    color: #e8eaed;
+    font-family: Arial, sans-serif;
+}
+
+.topbar {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 20px 7%;
+    background: #111318;
+    color: #a8c7fa;
+}
+
+.topbar a {
+    color: #a8c7fa;
+}
+
+.page {
+    width: 90%;
+    margin: 70px auto;
+}
+
+.card,
+.simple-card {
+    margin: auto;
+    padding: 50px;
+    background: #111318;
+    border: 2px solid #82b1ff;
+    border-radius: 30px;
+}
+
+.card {
+    display: flex;
+    gap: 55px;
+    max-width: 1100px;
+    min-height: 430px;
+}
+
+.left,
+.right {
+    width: 50%;
+}
+
+.right {
+    padding-top: 45px;
+}
+
+.simple-card {
+    width: 90%;
+    max-width: 500px;
+    margin-top: 70px;
+}
+
+.welcome-card {
+    max-width: 850px;
+    text-align: center;
+}
+
+.google {
+    margin-bottom: 25px;
+    color: #8ab4f8;
+    font-size: 64px;
+    font-weight: bold;
+}
+
+h1 {
+    font-size: 42px;
+    font-weight: normal;
+}
+
+h1 span {
+    color: #8ab4f8;
+}
+
+p {
+    line-height: 1.5;
+    color: #d5d8df;
+}
+
+label {
+    display: block;
+    margin: 15px 0 7px;
+}
+
+input,
+select {
+    width: 100%;
+    padding: 14px;
+    border: 1px solid #777;
+    border-radius: 8px;
+    background: #101217;
+    color: #e8eaed;
+    font-size: 16px;
+}
+
+.email-box {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.email-box input {
+    flex: 1;
+}
+
+.email-box span {
+    white-space: nowrap;
+}
+
+.actions {
+    display: flex;
+    justify-content: flex-end;
+    gap: 12px;
+    margin-top: 35px;
+}
+
+.button {
+    display: inline-block;
+    margin-top: 22px;
+    padding: 13px 25px;
+    border: 0;
+    border-radius: 25px;
+    background: #a8c7fa;
+    color: #173b68;
+    font-weight: bold;
+    text-align: center;
+    text-decoration: none;
+}
+
+.actions .button {
+    margin-top: 0;
+}
+
+.button.secondary {
+    background: transparent;
+    color: #a8c7fa;
+    border: 1px solid #8ab4f8;
+}
+
+.register-link {
+    text-align: center;
+}
+
+.register-link a {
+    color: #8ab4f8;
+}
+
+@media (max-width: 700px) {
+    .page {
+        width: 94%;
+        margin: 25px auto;
+    }
+
+    .card {
+        display: block;
+        padding: 25px;
+    }
+
+    .left,
+    .right {
+        width: 100%;
+    }
+
+    .right {
+        padding-top: 10px;
+    }
+
+    .simple-card {
+        width: 94%;
+        margin-top: 25px;
+        padding: 25px;
+    }
+
+    h1 {
+        font-size: 32px;
+    }
+}
+.card, .simple-card, .welcome-card {
+    border-color: rgba(210, 225, 255, .45);
+    background: rgba(30, 38, 55, .55);
+    box-shadow: 0 12px 40px rgba(0, 0, 0, .35);
+    backdrop-filter: blur(16px);
+}
+
+.google-option {
+    width: 100%;
+    text-align: center;
+}

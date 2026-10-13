@@ -1,0 +1,83 @@
+* { box-sizing: border-box; }
+
+body {
+    margin: 0;
+    min-height: 100vh;
+    background:
+        radial-gradient(ellipse at 15% 25%, rgba(66, 133, 244, .30), transparent 34%),
+        radial-gradient(ellipse at 88% 72%, rgba(138, 116, 220, .24), transparent 32%),
+        radial-gradient(ellipse at 60% 0%, rgba(120, 170, 240, .14), transparent 38%),
+        linear-gradient(135deg, #101625, #202124 52%, #111827);
+    background-attachment: fixed;
+    color: #e8eaed;
+    font-family: Arial, sans-serif;
+}
+
+.topbar {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 20px 7%;
+    background: rgba(17, 19, 24, .7);
+    color: #a8c7fa;
+}
+
+.topbar a { color: #a8c7fa; }
+
+.google-card {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 50px;
+    width: min(90%, 1050px);
+    margin: 70px auto;
+    padding: 48px;
+    border: 1px solid rgba(210, 225, 255, .45);
+    border-radius: 30px;
+    background: rgba(30, 38, 55, .55);
+    box-shadow: 0 12px 40px rgba(0, 0, 0, .35);
+    backdrop-filter: blur(16px);
+}
+
+.create-side {
+    padding: 12px 35px 12px 5px;
+    border-right: 1px solid rgba(210, 225, 255, .28);
+}
+
+.signin-side { padding: 12px 5px; }
+.google-logo { color: #8ab4f8; font-size: 64px; font-weight: bold; }
+h1 { font-size: 38px; font-weight: normal; }
+p { color: #d5d8df; line-height: 1.5; }
+label { display: block; margin: 16px 0 7px; }
+
+input {
+    width: 100%;
+    padding: 14px;
+    border: 1px solid rgba(210, 225, 255, .5);
+    border-radius: 9px;
+    background: rgba(10, 14, 22, .55);
+    color: #e8eaed;
+    font-size: 16px;
+}
+
+.button {
+    display: inline-block;
+    margin-top: 24px;
+    padding: 13px 26px;
+    border: 1px solid transparent;
+    border-radius: 25px;
+    background: #a8c7fa;
+    color: #173b68;
+    font-weight: bold;
+    text-decoration: none;
+}
+
+.button.outline {
+    border-color: #8ab4f8;
+    background: transparent;
+    color: #a8c7fa;
+}
+
+@media (max-width: 700px) {
+    .google-card { grid-template-columns: 1fr; gap: 25px; margin: 25px auto; padding: 25px; }
+    .create-side { padding: 0 0 22px; border-right: 0; border-bottom: 1px solid rgba(210, 225, 255, .28); }
+}
