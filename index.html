@@ -1,0 +1,270 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Sojie Market</title>
+    <style>
+        * { box-sizing: border-box; }
+        :root { color-scheme: dark; --ink:#e8eaed; --muted:#c0cbdb; --blue:#a8c7fa; --deep:#173b68; --line:rgba(210,225,255,.3); }
+        html { scroll-behavior:smooth; }
+        body { margin:0; min-height:100vh; color:var(--ink); font-family:Arial,sans-serif; background:radial-gradient(ellipse at 12% 12%,rgba(66,133,244,.28),transparent 34%),radial-gradient(ellipse at 90% 68%,rgba(138,116,220,.22),transparent 34%),linear-gradient(135deg,#101625,#202124 52%,#111827); background-attachment:fixed; }
+        a { color:#d8e7ff; }
+        button,input,select,textarea { font:inherit; }
+        button,a { -webkit-tap-highlight-color:transparent; }
+        [hidden] { display:none !important; }
+        .view { min-height:100vh; }
+        .topbar,.market-nav { display:flex; align-items:center; justify-content:space-between; gap:18px; padding:18px max(5vw,calc((100vw - 1180px)/2)); background:rgba(10,15,25,.68); border-bottom:1px solid rgba(210,225,255,.16); backdrop-filter:blur(16px); }
+        .topbar a,.market-nav a { text-decoration:none; }
+        .brand { color:#eef5ff; font-size:20px; font-weight:bold; }
+        .glass { border:1px solid rgba(210,225,255,.38); border-radius:28px; background:rgba(30,38,55,.56); box-shadow:0 16px 42px rgba(0,0,0,.28); backdrop-filter:blur(17px); }
+        .button,.primary { display:inline-block; border:1px solid transparent; border-radius:24px; padding:12px 23px; background:var(--blue); color:var(--deep); font-weight:bold; text-decoration:none; text-align:center; cursor:pointer; }
+        .button.outline,.secondary { border:1px solid rgba(168,199,250,.6); background:rgba(13,20,33,.35); color:var(--blue); }
+        .button:hover,.primary:hover { background:#c2d8ff; }
+        input,select,textarea { width:100%; padding:13px 14px; border:1px solid rgba(210,225,255,.43); border-radius:10px; outline:none; background:rgba(9,14,24,.55); color:var(--ink); }
+        input:focus,select:focus,textarea:focus { border-color:var(--blue); box-shadow:0 0 0 3px rgba(168,199,250,.15); }
+        label { display:block; margin:15px 0 7px; color:#dce7f8; font-size:14px; }
+        h1,h2,h3,p { margin-top:0; }
+        h1 { font-size:clamp(30px,4vw,42px); font-weight:normal; }
+        p { color:var(--muted); line-height:1.55; }
+        .center-card { width:min(92%,520px); margin:65px auto; padding:38px; }
+        .center-card h1 { margin-bottom:8px; }
+        .g-mark { margin-bottom:18px; color:#8ab4f8; font-size:58px; font-weight:bold; }
+        .form-link { display:block; margin-top:18px; color:var(--blue); text-align:center; }
+        .split-card { display:grid; grid-template-columns:1fr 1fr; gap:42px; width:min(92%,1050px); margin:65px auto; padding:44px; }
+        .split-side + .split-side { padding-left:42px; border-left:1px solid var(--line); }
+        .form-actions { display:flex; justify-content:flex-end; gap:12px; margin-top:28px; }
+        .home-cover { position:relative; display:grid; min-height:100vh; place-items:center; overflow:hidden; background:linear-gradient(#202124,#111216); }
+        .home-nav { position:absolute; z-index:10; top:22px; right:28px; display:flex; gap:20px; }
+        .home-nav a { color:#d7e8ff; font-size:16px; }
+        .star { position:absolute; color:#a8c7fa; font-size:25px; }
+        .s1 { top:15%; left:20%; } .s2 { top:25%; left:32%; } .s3 { top:18%; right:22%; } .s4 { top:35%; right:30%; }
+        .cloud { position:absolute; top:19%; width:220px; height:58px; border-radius:50px; background:#151d32; }
+        .cloud:before,.cloud:after { content:""; position:absolute; border-radius:50%; background:#151d32; }
+        .cloud:before { top:-34px; left:35px; width:85px; height:85px; } .cloud:after { top:-44px; right:30px; width:100px; height:100px; }
+        .cloud-left { left:-65px; } .cloud-right { right:-65px; }
+        .moonless-orb { position:absolute; top:38%; left:50%; width:180px; height:180px; border:3px solid #8ab4f8; border-radius:50%; background:#a8c7fa; box-shadow:0 0 18px #8ab4f8,0 0 60px #4285f4; transform:translate(-50%,-50%); }
+        .flower-row { position:absolute; bottom:55px; display:flex; width:min(90%,950px); justify-content:space-between; }
+        .tulip { position:relative; width:72px; height:260px; }
+        .petals { position:absolute; top:0; left:9px; width:54px; height:50px; }
+        .petals i { position:absolute; width:33px; height:52px; border-radius:50% 50% 35% 35%; background:#8ab4f8; }
+        .petals i:first-child { left:0; transform:rotate(-20deg); } .petals i:nth-child(2) { top:-5px; left:12px; } .petals i:last-child { left:24px; transform:rotate(20deg); }
+        .stem { position:absolute; top:40px; left:35px; width:7px; height:205px; background:#65916b; }
+        .leaf { position:absolute; top:120px; left:4px; width:30px; height:65px; border-radius:100% 0; background:#6f9d73; transform:rotate(-25deg); }
+        .water { position:absolute; bottom:-105px; left:10%; width:80%; height:210px; border-top:2px solid #355b9b; border-radius:50% 50% 0 0; background:rgba(17,24,39,.82); }
+        .home-continue { position:absolute; top:58%; left:50%; z-index:8; transform:translateX(-50%); }
+        .page-shell { width:min(1180px,92%); margin:34px auto; }
+        .eyebrow { margin:0 0 7px; color:var(--blue); font-size:12px; font-weight:bold; letter-spacing:.14em; text-transform:uppercase; }
+        .store-hero { display:flex; min-height:190px; align-items:center; justify-content:space-between; gap:20px; padding:32px 42px; }
+        .store-hero h1 { margin:8px 0; font-size:clamp(34px,5vw,54px); }
+        .store-hero p { margin-bottom:0; }
+        .hero-star { display:grid; width:110px; height:110px; flex:0 0 110px; place-items:center; border:1px solid var(--line); border-radius:50%; background:radial-gradient(circle at 35% 30%,#d1e2ff,#8ab4f8 50%,#5684d2); box-shadow:0 0 40px rgba(104,157,245,.45); font-size:45px; }
+        .section-head { display:flex; align-items:end; justify-content:space-between; gap:18px; margin:34px 0 16px; }
+        .section-head h2 { margin:0; font-size:26px; font-weight:normal; }
+        .catalog-tools { display:flex; width:min(100%,490px); gap:10px; }
+        .catalog-tools input { flex:1; }
+        .product-grid { display:grid; grid-template-columns:repeat(3,minmax(0,1fr)); gap:17px; }
+        .product-card { overflow:hidden; border-radius:19px; }
+        .product-art { display:grid; min-height:128px; place-items:center; background:radial-gradient(circle,rgba(168,199,250,.28),transparent 55%),rgba(14,23,39,.4); font-size:58px; }
+        .product-info { padding:17px; }
+        .category { color:var(--blue); font-size:12px; text-transform:uppercase; letter-spacing:.08em; }
+        .product-info h3 { margin:8px 0; font-size:18px; }
+        .product-info p { min-height:42px; margin:0; font-size:13px; }
+        .product-foot { display:flex; flex-wrap:wrap; align-items:center; justify-content:space-between; gap:10px; margin-top:15px; }
+        .product-price { color:#e1ecff; font-size:18px; font-weight:bold; }
+        .button-row { display:flex; gap:7px; }
+        .small-button,.qty-button { padding:8px 12px; border:1px solid var(--line); border-radius:18px; background:rgba(12,20,34,.4); color:var(--blue); cursor:pointer; }
+        .small-button:disabled { opacity:.5; cursor:not-allowed; }
+        .two-columns { display:grid; grid-template-columns:.95fr 1.05fr; gap:18px; margin-top:36px; align-items:start; }
+        .panel { padding:22px; }
+        .panel h2 { margin-bottom:18px; font-size:24px; font-weight:normal; }
+        .cart-row,.order-head { display:flex; align-items:center; justify-content:space-between; gap:12px; }
+        .cart-row { padding:13px 0; border-bottom:1px solid var(--line); }
+        .cart-meta { display:grid; gap:5px; } .cart-meta span { color:var(--muted); font-size:13px; }
+        .qty-controls { display:flex; align-items:center; gap:8px; }
+        .qty-button { width:30px; height:30px; padding:0; }
+        .cart-total { display:flex; justify-content:space-between; margin:17px 0; font-size:18px; }
+        .checkout { display:grid; gap:3px; }
+        .checkout h3 { margin:8px 0; }
+        .empty { color:var(--muted); }
+        .message { min-height:20px; margin:8px 0 0; color:var(--blue); font-size:14px; }
+        .order-card { margin-bottom:12px; padding:14px; border:1px solid var(--line); border-radius:15px; background:rgba(9,15,25,.3); }
+        .status-pill { padding:5px 9px; border:1px solid rgba(168,199,250,.4); border-radius:18px; color:var(--blue); font-size:12px; }
+        .order-card p { margin:8px 0; font-size:13px; }
+        .progress { display:grid; grid-template-columns:repeat(5,1fr); gap:4px; margin-top:12px; }
+        .progress span { padding-top:6px; border-top:2px solid rgba(210,225,255,.18); color:#92a0b5; font-size:10px; text-align:center; }
+        .progress .done { border-color:#8ab4f8; color:#dce9ff; }
+        .dialog { width:min(470px,92vw); border:1px solid var(--line); border-radius:22px; background:rgba(18,27,43,.95); color:var(--ink); }
+        .dialog::backdrop { background:rgba(0,0,0,.65); backdrop-filter:blur(4px); }
+        .dialog-close { float:right; border:0; background:none; color:var(--ink); font-size:28px; cursor:pointer; }
+        .stat-grid { display:grid; grid-template-columns:repeat(3,1fr); gap:14px; margin:18px 0; }
+        .stat { display:grid; gap:9px; padding:18px; color:var(--muted); }
+        .stat strong { color:#eaf2ff; font-size:25px; }
+        .form-grid { display:grid; grid-template-columns:repeat(2,minmax(0,1fr)); gap:10px 14px; }
+        .form-grid label { align-self:end; }
+        .full-row { grid-column:1/-1; }
+        .table-wrap { width:100%; overflow-x:auto; }
+        table { width:100%; border-collapse:collapse; text-align:left; }
+        th,td { padding:11px 9px; border-bottom:1px solid var(--line); vertical-align:middle; }
+        th { color:var(--blue); font-size:13px; } td { font-size:14px; }
+        .danger { color:#ffc0c0; }
+        .footer { padding:25px 0 40px; color:var(--muted); font-size:13px; text-align:center; }
+        @media(max-width:820px) { .product-grid { grid-template-columns:repeat(2,minmax(0,1fr)); } .two-columns { grid-template-columns:1fr; } .market-nav { flex-wrap:wrap; justify-content:center; } .market-nav nav { order:3; width:100%; justify-content:center; } }
+        @media(max-width:620px) { .home-nav { left:8px; right:8px; justify-content:center; gap:10px; } .home-nav a { font-size:12px; } .flower-row { width:96%; bottom:25px; } .tulip { transform:scale(.78); transform-origin:bottom center; } .cloud { transform:scale(.7); } .split-card { grid-template-columns:1fr; gap:22px; margin:28px auto; padding:24px; } .split-side + .split-side { padding:22px 0 0; border-left:0; border-top:1px solid var(--line); } .center-card { margin:28px auto; padding:25px; } .page-shell { width:94%; margin:18px auto; } .store-hero { padding:24px; } .hero-star { width:65px; height:65px; flex-basis:65px; font-size:28px; } .product-grid { grid-template-columns:1fr; } .section-head { align-items:stretch; flex-direction:column; } .catalog-tools { width:100%; } .stat-grid { grid-template-columns:1fr; } .form-grid { grid-template-columns:1fr; } .full-row { grid-column:1; } .panel { padding:17px; } }
+    </style>
+</head>
+<body>
+    <section id="home" class="view home-cover">
+        <nav class="home-nav">
+            <a href="#home" data-go="home">Home</a>
+            <a href="#login" data-go="login">Log In</a>
+            <a href="#registration" data-go="registration">Registration</a>
+            <a href="#google" data-go="google">Google Account</a>
+        </nav>
+        <span class="star s1">✦</span><span class="star s2">✦</span><span class="star s3">✦</span><span class="star s4">✦</span>
+        <div class="cloud cloud-left"></div><div class="cloud cloud-right"></div>
+        <div class="moonless-orb" aria-hidden="true"></div>
+        <a class="button home-continue" href="#login" data-go="login">Continue</a>
+        <div class="flower-row" aria-hidden="true">
+            <div class="tulip"><div class="petals"><i></i><i></i><i></i></div><div class="stem"></div><div class="leaf"></div></div>
+            <div class="tulip"><div class="petals"><i></i><i></i><i></i></div><div class="stem"></div><div class="leaf"></div></div>
+            <div class="tulip"><div class="petals"><i></i><i></i><i></i></div><div class="stem"></div><div class="leaf"></div></div>
+            <div class="tulip"><div class="petals"><i></i><i></i><i></i></div><div class="stem"></div><div class="leaf"></div></div>
+            <div class="tulip"><div class="petals"><i></i><i></i><i></i></div><div class="stem"></div><div class="leaf"></div></div>
+        </div>
+        <div class="water"></div>
+    </section>
+
+    <section id="login" class="view" hidden>
+        <header class="topbar"><a href="#home" data-go="home">Home</a><span>Login</span></header>
+        <main class="center-card glass">
+            <h1>Log in</h1><p>Enter your email and password to continue to Sojie Market.</p>
+            <label for="loginEmail">Email address</label><input id="loginEmail" type="email" placeholder="Enter your email">
+            <label for="loginPassword">Password</label><input id="loginPassword" type="password" placeholder="Enter your password">
+            <a class="button" href="#shop" data-go="shop">Log In</a>
+            <a class="form-link" href="#registration" data-go="registration">Need an account? Register</a>
+        </main>
+    </section>
+
+    <section id="registration" class="view" hidden>
+        <header class="topbar"><a href="#home" data-go="home">Home</a><span>Registration</span></header>
+        <main class="center-card glass">
+            <div class="g-mark">G</div><h1>Registration Form</h1><p>Enter your information to register.</p>
+            <label for="regName">Full name</label><input id="regName" placeholder="Enter your full name">
+            <label for="regEmail">Email address</label><input id="regEmail" type="email" placeholder="Enter your email">
+            <label for="regPhone">Phone number</label><input id="regPhone" type="tel" placeholder="Enter your phone number">
+            <a class="button" href="#welcome" data-go="welcome">Register</a>
+            <a class="button" href="#google" data-go="google">Continue with Google Account</a>
+        </main>
+    </section>
+
+    <section id="google" class="view" hidden>
+        <header class="topbar"><a href="#registration" data-go="registration">Back to Registration</a><span>Google Account</span></header>
+        <main class="split-card glass">
+            <div class="split-side"><div class="g-mark">G</div><h1>Create account</h1><p>New to Google Account? Create an account to continue.</p><a class="button outline" href="#name" data-go="name">Create Account</a></div>
+            <div class="split-side"><h1>Sign in</h1><p>Enter your email and password.</p><label for="googleEmail">Email address</label><input id="googleEmail" type="email" placeholder="Enter your email"><label for="googlePassword">Password</label><input id="googlePassword" type="password" placeholder="Enter your password"><div class="form-actions"><a class="button" href="#welcome" data-go="welcome">Next</a></div></div>
+        </main>
+    </section>
+
+    <section id="name" class="view" hidden>
+        <header class="topbar"><a href="#google" data-go="google">Back</a><span>Create Account</span></header>
+        <main class="split-card glass"><div class="split-side"><div class="g-mark">G</div><h1>Create a Google Account</h1><p>Enter your name.</p></div><div class="split-side"><label for="firstName">First name</label><input id="firstName" placeholder="First name"><label for="lastName">Last name</label><input id="lastName" placeholder="Last name (optional)"><div class="form-actions"><a class="button" href="#password" data-go="password">Next</a></div></div></main>
+    </section>
+
+    <section id="password" class="view" hidden>
+        <header class="topbar"><a href="#name" data-go="name">Back</a><span>Create Account</span></header>
+        <main class="split-card glass"><div class="split-side"><div class="g-mark">G</div><h1>Create a strong password</h1><p>Use a mixture of letters, numbers, and symbols.</p></div><div class="split-side"><label for="newPassword">Password</label><input id="newPassword" type="password" placeholder="Create a password"><label for="confirmPassword">Confirm password</label><input id="confirmPassword" type="password" placeholder="Confirm password"><div class="form-actions"><a class="button" href="#info" data-go="info">Next</a></div></div></main>
+    </section>
+
+    <section id="info" class="view" hidden>
+        <header class="topbar"><a href="#password" data-go="password">Back</a><span>Basic Information</span></header>
+        <main class="split-card glass"><div class="split-side"><div class="g-mark">G</div><h1>Basic information</h1><p>Enter your date of birth and gender.</p></div><div class="split-side"><label for="birthDate">Date of birth</label><input id="birthDate" type="date"><label for="gender">Gender</label><select id="gender"><option value="">Choose an option</option><option>Female</option><option>Male</option><option>Rather not say</option></select><div class="form-actions"><a class="button" href="#email" data-go="email">Next</a></div></div></main>
+    </section>
+
+    <section id="email" class="view" hidden>
+        <header class="topbar"><a href="#info" data-go="info">Back</a><span>Google Account</span></header>
+        <main class="split-card glass"><div class="split-side"><div class="g-mark">G</div><h1>How you'll sign in</h1><p>Choose an email address for your account.</p></div><div class="split-side"><label for="newEmail">Email address</label><input id="newEmail" type="email" placeholder="Choose an email address"><div class="form-actions"><a class="button" href="#welcome" data-go="welcome">Finish</a></div></div></main>
+    </section>
+
+    <section id="welcome" class="view" hidden>
+        <header class="topbar"><a href="#home" data-go="home">Home</a><span>Welcome</span></header>
+        <main class="center-card glass"><div class="g-mark">G</div><h1>Welcome to<br>Google Account</h1><p>Your account setup is complete.</p><a class="button" href="#shop" data-go="shop">Continue to Sojie Market</a></main>
+    </section>
+
+    <section id="shop" class="view" hidden>
+        <header class="market-nav"><a class="brand" href="#shop" data-go="shop">Sojie Market</a><nav><a href="#home" data-go="home">Home</a><a href="#products">Shop</a><a href="#orders">Track orders</a><a href="#seller" data-go="seller">Seller dashboard</a></nav><a href="#cart">Cart <span id="cartCount">0</span></a></header>
+        <main class="page-shell">
+            <section class="store-hero glass"><div><p class="eyebrow">A little something for you</p><h1>Find your next favorite.</h1><p>Browse products, add them to your cart, and follow your orders here.</p></div><div class="hero-star" aria-hidden="true">✦</div></section>
+            <section id="products"><div class="section-head"><div><p class="eyebrow">Shop</p><h2>Featured products</h2></div><div class="catalog-tools"><input id="searchProducts" type="search" placeholder="Search products"><select id="filterCategory"><option value="all">All categories</option></select></div></div><div id="productGrid" class="product-grid"></div><p id="noProducts" class="empty" hidden>No products match your search.</p></section>
+            <div class="two-columns">
+                <section id="cart" class="panel glass"><p class="eyebrow">Your bag</p><h2>Shopping cart</h2><div id="cartItems"></div><p class="cart-total">Total <strong id="cartTotal">₱0.00</strong></p><form id="checkoutForm" class="checkout"><h3>Delivery details</h3><label for="buyerName">Full name</label><input id="buyerName" required placeholder="Your name"><label for="buyerEmail">Email</label><input id="buyerEmail" type="email" required placeholder="you@example.com"><label for="buyerAddress">Delivery address</label><textarea id="buyerAddress" rows="3" required placeholder="Street, city, province"></textarea><button class="primary" type="submit">Place order</button><p id="checkoutMessage" class="message" role="status"></p></form></section>
+                <section id="orders" class="panel glass"><p class="eyebrow">Updates</p><h2>Track your orders</h2><div id="customerOrders"></div></section>
+            </div>
+            <footer class="footer">Sojie Market · School project demo</footer>
+        </main>
+        <dialog id="productDialog" class="dialog"><button id="closeDialog" class="dialog-close" type="button" aria-label="Close">×</button><div id="dialogContent"></div></dialog>
+    </section>
+
+    <section id="seller" class="view" hidden>
+        <header class="market-nav"><a class="brand" href="#shop" data-go="shop">Sojie Market</a><nav><a href="#shop" data-go="shop">Customer store</a><a href="#inventory">Products</a><a href="#sellerOrders">Orders</a></nav><span>Seller dashboard</span></header>
+        <main class="page-shell">
+            <section class="store-hero glass"><div><p class="eyebrow">Store management</p><h1>Seller dashboard</h1><p>Add products, update inventory, manage order statuses, and view sales.</p></div><div class="hero-star" aria-hidden="true">✦</div></section>
+            <section class="stat-grid"><article class="stat glass">Products listed<strong id="statProducts">0</strong></article><article class="stat glass">Orders to process<strong id="statPending">0</strong></article><article class="stat glass">Sales total<strong id="statSales">₱0.00</strong></article></section>
+            <section class="panel glass"><p class="eyebrow">Inventory</p><h2 id="productFormTitle">Add a product</h2><form id="productForm" class="form-grid"><input id="editProductId" type="hidden"><label for="productName">Product name</label><label for="productCategory">Category</label><input id="productName" required maxlength="70" placeholder="Product name"><input id="productCategory" required maxlength="40" placeholder="Category"><label for="productPrice">Price (₱)</label><label for="productStock">Stock</label><input id="productPrice" type="number" min="0.01" step="0.01" required placeholder="250"><input id="productStock" type="number" min="0" step="1" required placeholder="10"><label class="full-row" for="productDescription">Description</label><textarea class="full-row" id="productDescription" rows="3" maxlength="240" placeholder="Short description"></textarea><div class="form-actions full-row"><button id="saveProduct" class="primary" type="submit">Add product</button><button id="cancelEdit" class="secondary" type="button" hidden>Cancel edit</button></div><p id="sellerMessage" class="message full-row" role="status"></p></form></section>
+            <section id="inventory" class="panel glass"><p class="eyebrow">Manage products</p><h2>Product inventory</h2><div class="table-wrap"><table><thead><tr><th>Product</th><th>Category</th><th>Price</th><th>Stock</th><th>Actions</th></tr></thead><tbody id="sellerProducts"></tbody></table></div></section>
+            <section id="sellerOrders" class="panel glass"><p class="eyebrow">Fulfillment</p><h2>Customer orders</h2><div class="table-wrap"><table><thead><tr><th>Order</th><th>Customer</th><th>Items</th><th>Total</th><th>Date</th><th>Status</th></tr></thead><tbody id="ordersTable"></tbody></table></div><p id="noSellerOrders" class="empty" hidden>No customer orders yet.</p></section>
+            <footer class="footer"><a href="#shop" data-go="shop">Return to the customer store</a></footer>
+        </main>
+    </section>
+
+    <script>
+    (() => {
+        "use strict";
+        const KEY = { products:"sojieMarket.products.v1", cart:"sojieMarket.cart.v1", orders:"sojieMarket.orders.v1" };
+        const STATUSES = ["Placed","Preparing","Shipped","Out for delivery","Delivered","Cancelled"];
+        const STARTER = [
+            {id:"p-bluebuds",name:"Sky Blue Earbuds",category:"Electronics",price:799,stock:12,description:"Lightweight wireless earbuds for music, calls, and everyday listening.",icon:"🎧"},
+            {id:"p-tumbler",name:"Cloud Blue Tumbler",category:"Home",price:349,stock:18,description:"A reusable tumbler for your daily drinks.",icon:"🥤"},
+            {id:"p-tote",name:"Everyday Canvas Tote",category:"Accessories",price:259,stock:20,description:"A roomy canvas bag for school and weekend trips.",icon:"👜"},
+            {id:"p-lamp",name:"Soft Glow Desk Lamp",category:"Home",price:685,stock:8,description:"A compact desk lamp for reading and working at night.",icon:"💡"},
+            {id:"p-stand",name:"Adjustable Phone Stand",category:"Electronics",price:189,stock:25,description:"A foldable stand that keeps your phone upright on a desk.",icon:"📱"},
+            {id:"p-notebook",name:"Blue Sky Notebook Set",category:"Stationery",price:145,stock:30,description:"Three lined notebooks for notes, lists, and ideas.",icon:"📘"}
+        ];
+        function read(key,fallback){try{const raw=localStorage.getItem(key);return raw?JSON.parse(raw):fallback;}catch{return fallback;}}
+        function save(key,value){try{localStorage.setItem(key,JSON.stringify(value));}catch{}}
+        let products=read(KEY.products,null); if(!Array.isArray(products)){products=STARTER;save(KEY.products,products);}
+        let cart=read(KEY.cart,{}); if(!cart||typeof cart!=="object"||Array.isArray(cart))cart={};
+        let orders=read(KEY.orders,[]); if(!Array.isArray(orders))orders=[];
+        const money=n=>new Intl.NumberFormat("en-PH",{style:"currency",currency:"PHP"}).format(Number(n)||0);
+        const el=(tag,cls,text)=>{const x=document.createElement(tag);if(cls)x.className=cls;if(text!==undefined)x.textContent=text;return x;};
+        const formatDate=value=>{const d=new Date(value);return Number.isNaN(d.getTime())?"Date unavailable":new Intl.DateTimeFormat("en-PH",{dateStyle:"medium",timeStyle:"short"}).format(d);};
+        function show(id){const view=document.getElementById(id);if(!view)return;document.querySelectorAll(".view").forEach(v=>v.hidden=true);view.hidden=false;if(location.hash!=="#"+id)location.hash=id;window.scrollTo(0,0);if(id==="shop")renderShop();if(id==="seller")renderSeller();}
+        document.addEventListener("click",event=>{const link=event.target.closest("[data-go]");if(link){event.preventDefault();show(link.dataset.go);}});
+        window.addEventListener("hashchange",()=>{const id=location.hash.slice(1);if(document.getElementById(id)&&document.getElementById(id).classList.contains("view")){document.querySelectorAll(".view").forEach(v=>v.hidden=true);document.getElementById(id).hidden=false;if(id==="shop")renderShop();if(id==="seller")renderSeller();}});
+        const start=location.hash.slice(1);show(document.getElementById(start)?.classList.contains("view")?start:"home");
+
+        function renderShop(){renderCategories();renderProducts();renderCart();renderCustomerOrders();}
+        function renderCategories(){const select=document.getElementById("filterCategory");if(!select)return;const old=select.value||"all";select.replaceChildren();const all=el("option","","All categories");all.value="all";select.append(all);[...new Set(products.map(p=>p.category).filter(Boolean))].sort().forEach(c=>{const o=el("option","",c);o.value=c;select.append(o);});select.value=[...select.options].some(o=>o.value===old)?old:"all";}
+        function renderProducts(){const grid=document.getElementById("productGrid");if(!grid)return;const query=document.getElementById("searchProducts").value.trim().toLowerCase();const category=document.getElementById("filterCategory").value;const list=products.filter(p=>`${p.name} ${p.category} ${p.description}`.toLowerCase().includes(query)&&(category==="all"||p.category===category));grid.replaceChildren();document.getElementById("noProducts").hidden=list.length>0;list.forEach(p=>{const card=el("article","product-card glass");card.append(el("div","product-art",p.icon||"✦"));const info=el("div","product-info");info.append(el("span","category",p.category),el("h3","",p.name),el("p","",p.description));const foot=el("div","product-foot");foot.append(el("strong","product-price",money(p.price)));const actions=el("div","button-row");const detail=el("button","small-button","Details");detail.type="button";detail.dataset.detail=p.id;const add=el("button","primary","Add");add.type="button";add.dataset.add=p.id;add.disabled=Number(p.stock)<=0;if(add.disabled)add.textContent="Sold out";actions.append(detail,add);foot.append(actions);info.append(foot);card.append(info);grid.append(card);});}
+        function renderCart(){const list=document.getElementById("cartItems");if(!list)return;list.replaceChildren();let total=0,count=0;const entries=Object.entries(cart).filter(([id,q])=>products.some(p=>p.id===id)&&Number(q)>0);if(!entries.length)list.append(el("p","empty","Your cart is empty."));entries.forEach(([id,q])=>{const p=products.find(x=>x.id===id),qty=Number(q);total+=Number(p.price)*qty;count+=qty;const row=el("div","cart-row"),meta=el("div","cart-meta");meta.append(el("strong","",p.name),el("span","",`${money(p.price)} each`));const controls=el("div","qty-controls");const minus=el("button","qty-button","−");minus.type="button";minus.dataset.qty="-1";minus.dataset.id=id;const number=el("span","",String(qty));const plus=el("button","qty-button","+");plus.type="button";plus.dataset.qty="1";plus.dataset.id=id;controls.append(minus,number,plus);row.append(meta,controls);list.append(row);});document.getElementById("cartTotal").textContent=money(total);document.getElementById("cartCount").textContent=String(count);}
+        function addToCart(id){const p=products.find(x=>x.id===id);if(!p)return;const current=Number(cart[id]||0);if(current>=Number(p.stock))return;cart[id]=current+1;save(KEY.cart,cart);renderCart();}
+        function statusClass(s){return String(s||"").toLowerCase().replace(/[^a-z]+/g,"-").replace(/^-|-$/g,"");}
+        function renderCustomerOrders(){const host=document.getElementById("customerOrders");if(!host)return;host.replaceChildren();if(!orders.length){host.append(el("p","empty","Your orders will appear here after checkout."));return;}[...orders].reverse().forEach(order=>{const card=el("article","order-card"),head=el("div","order-head");head.append(el("strong","",order.id),el("span","status-pill",order.status));card.append(head,el("p","",`Placed ${formatDate(order.createdAt)}`),el("p","",order.items.map(i=>`${i.name} × ${i.quantity}`).join(", ")),el("strong","",`Total ${money(order.total)}`));const progress=el("div","progress"),current=STATUSES.indexOf(order.status);STATUSES.slice(0,5).forEach((s,i)=>progress.append(el("span",i<=current?"done":"",s)));card.append(progress);host.append(card);});}
+        document.getElementById("searchProducts").addEventListener("input",renderProducts);
+        document.getElementById("filterCategory").addEventListener("change",renderProducts);
+        document.getElementById("productGrid").addEventListener("click",event=>{const id=event.target.dataset.add;if(id){addToCart(id);return;}const detailId=event.target.dataset.detail;if(!detailId)return;const p=products.find(x=>x.id===detailId);if(!p)return;const host=document.getElementById("dialogContent");host.replaceChildren(el("div","product-art",p.icon||"✦"),el("span","category",p.category),el("h2","",p.name),el("p","",p.description),el("strong","product-price",money(p.price)),el("p","",`Available: ${p.stock}`));const add=el("button","primary","Add to cart");add.type="button";add.disabled=Number(p.stock)<=0;add.addEventListener("click",()=>{addToCart(p.id);document.getElementById("productDialog").close();});host.append(add);document.getElementById("productDialog").showModal();});
+        document.getElementById("closeDialog").addEventListener("click",()=>document.getElementById("productDialog").close());
+        document.getElementById("cartItems").addEventListener("click",event=>{const b=event.target.closest("button[data-qty]");if(!b)return;const id=b.dataset.id,next=Number(cart[id]||0)+Number(b.dataset.qty),p=products.find(x=>x.id===id);if(next<=0)delete cart[id];else cart[id]=Math.min(next,Number(p?.stock||next));save(KEY.cart,cart);renderCart();});
+        document.getElementById("checkoutForm").addEventListener("submit",event=>{event.preventDefault();const msg=document.getElementById("checkoutMessage"),entries=Object.entries(cart).filter(([id,q])=>products.some(p=>p.id===id)&&Number(q)>0);if(!entries.length){msg.textContent="Add a product before placing an order.";return;}const items=[];for(const [id,q] of entries){const p=products.find(x=>x.id===id);if(Number(p.stock)<Number(q)){msg.textContent=`Not enough stock for ${p.name}.`;return;}items.push({id,name:p.name,price:Number(p.price),quantity:Number(q)});}const total=items.reduce((sum,i)=>sum+i.price*i.quantity,0),order={id:"SOJ-"+Date.now().toString().slice(-8),customer:document.getElementById("buyerName").value.trim(),email:document.getElementById("buyerEmail").value.trim(),address:document.getElementById("buyerAddress").value.trim(),items,total,status:"Placed",createdAt:new Date().toISOString()};items.forEach(i=>{const p=products.find(x=>x.id===i.id);p.stock=Number(p.stock)-i.quantity;});orders.push(order);cart={};save(KEY.products,products);save(KEY.cart,cart);save(KEY.orders,orders);event.target.reset();msg.textContent=`Order ${order.id} placed. Track it below.`;renderShop();});
+
+        let editing="";
+        function renderSeller(){const productBody=document.getElementById("sellerProducts"),orderBody=document.getElementById("ordersTable");if(!productBody||!orderBody)return;productBody.replaceChildren();orderBody.replaceChildren();document.getElementById("statProducts").textContent=products.length;document.getElementById("statPending").textContent=orders.filter(o=>!["Delivered","Cancelled"].includes(o.status)).length;document.getElementById("statSales").textContent=money(orders.filter(o=>o.status!=="Cancelled").reduce((n,o)=>n+Number(o.total),0));if(!products.length){const row=el("tr"),cell=el("td","empty","No products yet.");cell.colSpan=5;row.append(cell);productBody.append(row);}products.forEach(p=>{const row=el("tr");[p.name,p.category,money(p.price),String(p.stock)].forEach(v=>row.append(el("td","",v)));const td=el("td",""),edit=el("button","small-button","Edit"),del=el("button","small-button danger","Delete");edit.type=del.type="button";edit.dataset.edit=p.id;del.dataset.delete=p.id;td.append(edit,del);row.append(td);productBody.append(row);});document.getElementById("noSellerOrders").hidden=orders.length>0;if(!orders.length){const row=el("tr"),cell=el("td","empty","No customer orders yet.");cell.colSpan=6;row.append(cell);orderBody.append(row);} [...orders].reverse().forEach(o=>{const row=el("tr");[o.id,o.customer,o.items.map(i=>`${i.name} × ${i.quantity}`).join(", "),money(o.total),formatDate(o.createdAt)].forEach(v=>row.append(el("td","",v)));const td=el("td",""),select=document.createElement("select");select.dataset.status=o.id;STATUSES.forEach(s=>{const option=el("option","",s);option.value=s;select.append(option);});select.value=o.status;td.append(select);row.append(td);orderBody.append(row);});}
+        function resetProductForm(){document.getElementById("productForm").reset();editing="";document.getElementById("productFormTitle").textContent="Add a product";document.getElementById("saveProduct").textContent="Add product";document.getElementById("cancelEdit").hidden=true;}
+        document.getElementById("productForm").addEventListener("submit",event=>{event.preventDefault();const p={name:document.getElementById("productName").value.trim(),category:document.getElementById("productCategory").value.trim(),price:Number(document.getElementById("productPrice").value),stock:Number(document.getElementById("productStock").value),description:document.getElementById("productDescription").value.trim(),icon:"🛍️"};if(!p.name||!p.category||!Number.isFinite(p.price)||p.price<=0||!Number.isInteger(p.stock)||p.stock<0){document.getElementById("sellerMessage").textContent="Enter a product name, category, valid price, and stock.";return;}if(editing){Object.assign(products.find(x=>x.id===editing),p);document.getElementById("sellerMessage").textContent="Product updated.";}else{p.id="p-"+Date.now().toString(36)+Math.random().toString(36).slice(2,5);products.push(p);document.getElementById("sellerMessage").textContent="Product added.";}save(KEY.products,products);resetProductForm();renderSeller();});
+        document.getElementById("cancelEdit").addEventListener("click",resetProductForm);
+        document.getElementById("sellerProducts").addEventListener("click",event=>{const id=event.target.dataset.edit,del=event.target.dataset.delete;if(id){const p=products.find(x=>x.id===id);if(!p)return;editing=id;document.getElementById("editProductId").value=id;document.getElementById("productName").value=p.name;document.getElementById("productCategory").value=p.category;document.getElementById("productPrice").value=p.price;document.getElementById("productStock").value=p.stock;document.getElementById("productDescription").value=p.description;document.getElementById("productFormTitle").textContent="Edit product";document.getElementById("saveProduct").textContent="Save changes";document.getElementById("cancelEdit").hidden=false;document.getElementById("productForm").scrollIntoView({behavior:"smooth"});}if(del){products=products.filter(x=>x.id!==del);delete cart[del];save(KEY.products,products);save(KEY.cart,cart);renderSeller();}});
+        document.getElementById("ordersTable").addEventListener("change",event=>{const id=event.target.dataset.status;if(!id)return;const order=orders.find(o=>o.id===id);if(!order)return;order.status=event.target.value;save(KEY.orders,orders);document.getElementById("sellerMessage").textContent=`${order.id} is now ${order.status}.`;renderSeller();});
+    })();
+    </script>
+</body>
+</html>
